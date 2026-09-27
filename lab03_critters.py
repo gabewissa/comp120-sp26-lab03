@@ -176,9 +176,64 @@ Note: remove the "pass" statement after you start implementing the constructor.
 """
 
 class Sloth(Critter):
-    """ Replace this with a docstring for your class. """
+    """ 
+    A sloth that moves slowly to the east
+
+    Instance Variables: 
+    speedy (int): the number of turns between each movement
+    move_number (int): The number of moves the sloth has made
+    """
     def __init__(self, location: tuple[int, int], speed: int) -> None:
-        pass
+        """
+        Initializes a sloth with location and speed
+
+        Parameters: 
+        speed:the number of turns between each movement
+        location:the starting location of the sloth
+        """
+        super().__init__(location)
+        self.speedy=speed
+        self.move_number=0
+
+    def __str__(self)->str:
+        """
+        returns the string representation of the sloth: "S"
+        """
+        return "S"
+    def eat(self)->bool:
+        #always returns true the sloth always wants to eat
+        return True
+    def fight(self, opponent:str)->Attack:
+        #always returns scrath
+        return Attack.SCRATCH
+    def get_move(self, neighbors:dict[Direction,str])->Direction:
+        """
+        Moves east once every speedy turns and doesn't move otherwise
+
+        Parameters:
+        neighbors: A dictionary that tracks who is in each direction 
+
+        Returns:
+        Direction.EAST when time to move and Direction.Center otherwise
+
+        Example:
+            >>> sloth = Sloth((3, 5), 3)
+            >>> moves = []
+            >>> for i in range(6):
+            ...     move = sloth.get_move({Direction.NORTH: None, Direction.EAST: None, Direction.SOUTH: None, Direction.WEST: None})
+            ...     moves.append(move.name)
+            >>> moves
+            ['EAST', 'CENTER', 'CENTER', 'EAST', 'CENTER', 'CENTER']
+        """
+        if self.move_number % self.speedy ==0:
+            move = Direction.EAST
+        else:
+            move = Direction.CENTER
+        self.move_number += 1
+        return move
+    def get_color(self)->str:
+        #Returns the color of the sloth
+        return "pink"
 
 
 class ScaredCat(Critter):
