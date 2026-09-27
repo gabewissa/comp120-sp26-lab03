@@ -237,12 +237,55 @@ class Sloth(Critter):
 
 
 class ScaredCat(Critter):
-    """ Replace this with a docstring for your class. """
+    """ The Scared Cat avoids the cows and sloths at all costs
+        No new instance variables
+      """
 
     def __init__(self, location: tuple[int, int]) -> None:
-        pass
+        """
+        Initializes a Scared Cat at given location
+        Parameter:
+        location: The starting location of the cat
 
+        """
+        super().__init__(location)
+    def __str__(self)->str:
+        #Returns the string representation of the cat "!"
+        return"!"
+    def get_color(self)->str:
+        #Returns the color of the cat
+        return"red"
+    def eat(self)->bool:
+        #Always returns false the cat is too scared to eat
+        return False
+    def get_move(self, neighbors:dict[Direction,str])->Direction:
+        """
+        The cat always trys to move north unless it is blocked in which it tries to move east, then south, then west or stays still if surrounded.
 
+        Parameters:
+        neighbors: Dictionary that tracks who is in each direction.
+
+        Returns:
+        The first available direction, or Direction.CENTER if all directions are occupied.
+
+        Example:
+            >>> cat = ScaredCat((3, 5))
+            >>> cat.get_move({Direction.NORTH: None, Direction.EAST: "M", Direction.SOUTH: "M", Direction.WEST: "M"})
+            <Direction.NORTH: 1>
+            >>> cat.get_move({Direction.NORTH: "M", Direction.EAST: None, Direction.SOUTH: "M", Direction.WEST: "M"})
+            <Direction.EAST: 2>
+
+        """
+        if neighbors[Direction.NORTH] is None:
+            return Direction.NORTH
+        elif neighbors[Direction.EAST] is None:
+            return Direction.EAST
+        elif neighbors[Direction.SOUTH] is None:
+            return Direction.SOUTH
+        elif neighbors[Direction.WEST] is None:
+            return Direction.WEST
+        else:
+            return Direction.CENTER
 
 
 
